@@ -1,3 +1,4 @@
+import 'package:api_practice_2/presentation/widgets/add_post.dart';
 import 'package:flutter/material.dart';
 
 
@@ -31,9 +32,29 @@ class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Posts'),
-        centerTitle: true,
+
+        appBar: AppBar(
+          title: const Text('Posts'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    useSafeArea: true,
+                    backgroundColor: Colors.lime.shade100,
+                    isScrollControlled: true,
+                    builder: (context) => Padding(
+                        padding: EdgeInsets.only(
+                          //* to adjust the keyboard in the screen
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: AddPost(modalContext: context)),
+                  );
+                },
+                icon: const Icon(Icons.add))
+          ],
+
       ),
       body: isLoading
           ? const Center(

@@ -21,6 +21,17 @@ class ApiService {
     }
   }
 
+  Future sendData(String url, Map<String, dynamic> body) async {
+    final response = await http.post(Uri.parse(url), body: body);
+    if (response.statusCode == 201) {
+
+
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to fetch posts');
+    }
+  }
+
   Future<PostResponse> postData(String fullName, String email, String number, String password) async {
     // Map<String, String> header = {'toker': "hdjkashdhjdguiacvgdahjdhabkdvbhak"};
 
