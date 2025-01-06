@@ -78,6 +78,12 @@ class _AddPostState extends State<AddPost> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Description is required';
+                  }
+                  return null;
+                },
 
               ),
               const SizedBox(height: 20),
@@ -90,35 +96,41 @@ class _AddPostState extends State<AddPost> {
 
 
 
-                        Map<String, dynamic> body = {
-                          "title": _titleController.text,
-                          "body": _bodyController.text,
-                          "userId": "1"};
-
-                        final data = await _apiService.sendData(postUrl, body);
 
 
+    if (_formKey.currentState!.validate()) {
+      Map<String, dynamic> body = {
+        "title": _titleController.text,
+        "body": _bodyController.text,
+        "userId": "1"};
+      final data = await _apiService.sendData(postUrl, body);
+      if (data!= null) {
 
-                        if (data!= null) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Post added successfully!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+      else{
 
-                           Navigator.pop(context); // Close modal
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Post added successfully!'),
-                              backgroundColor: Colors.green,
-                            ),
-                          );
-                        }
-                        else{
-                          print(data.statusCode);
-                           Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Post added successfully!'),
-                                backgroundColor: Colors.green,
-                              ),);
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Post added successfully!'),
+            backgroundColor: Colors.green,
+          ),);
 
-                        }
+      }
+    }
+
+
+
+
+
+
 
 
 
